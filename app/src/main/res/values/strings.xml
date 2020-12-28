@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Testing it</string>
+    <string name="convert_string">Convert</string>
+    <string name="textview_txt">TextView</string>
+    <string name="no_value_string">No value</string>
+    <string name="dollar_hint">Dollars 775</string>
+</resources>
