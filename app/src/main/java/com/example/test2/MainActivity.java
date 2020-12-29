@@ -27,24 +27,34 @@ public class MainActivity extends AppCompatActivity {
     //MqttHelper mqttHelper;
     MqttAndroidClient client;
     TextView dataReceived;
-    //final String username = "android.utility@gmail.com";
-    //final String password = "bilbi1234";
 /*
-    final String url = "tcp://www.maqiatto.com:1883";
-    final String username = "android.utility@gmail.com";
-    final String password = "bilbi1234";
-    final String clientId = "ExampleAndroidClient";
-*/
+For the application connected to IBM MQTT broker:
+
+API Key: a-by94pk-uexpeh6kli
+Authentication Token: z2N6b4m0GCC-C&)7Si
+User ID: a:by94pk:APP1
+ */
+    final String url = "ssl://by94pk.messaging.internetofthings.ibmcloud.com:8883";
+    //final String url = "tcp://by94pk.messaging.internetofthings.ibmcloud.com:1883";
+    final String username = "a-by94pk-uexpeh6kli";
+    final String password = "z2N6b4m0GCC-C&)7Si";
+    final String clientId = "a:by94pk:APP1";
+    //final String clientId = "a:by94pk:dsg4";
+    String subtopic = "iot-2/type/aweHGH7/id/irri555/evt/\"+\"";
+/*
     final String url = "tcp://broker.emqx.io";
     final String username = "";
     final String password = "";
     String clientId = "aaa";
     String subtopic = "/sensor/temp";
-
+*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        final int CONNECTION_TIMEOUT = 60;
+        final int KEEP_ALIVE_INTERVAL = 200;
 
         dataReceived = (TextView) findViewById(R.id.dataReceived);
         //startMqtt();
@@ -74,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
         MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
         mqttConnectOptions.setAutomaticReconnect(true);
         mqttConnectOptions.setCleanSession(false);
+        mqttConnectOptions.setConnectionTimeout(CONNECTION_TIMEOUT);
+        mqttConnectOptions.setKeepAliveInterval(KEEP_ALIVE_INTERVAL);
         mqttConnectOptions.setUserName(username);
         mqttConnectOptions.setPassword(password.toCharArray());
 
@@ -81,20 +93,22 @@ public class MainActivity extends AppCompatActivity {
             mqttAndroidClient.connect(mqttConnectOptions,null, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
+
                     System.out.println("Connection Success!");
                     Log.w("Mqtt", "Connection Success!");
                     try {
                         System.out.println("Subscribing to");
                         Log.w("Mqtt", "Subscribing to");
+                        Log.w("Mqtt",subtopic);
                         mqttAndroidClient.subscribe(subtopic, 0);
                         System.out.println("Subscribed to topic");
                         System.out.println("Publishing message..");
                         Log.w("Mqtt", "Publishing message..");
-                        mqttAndroidClient.publish("/test", new MqttMessage("Hello world testing..!".getBytes()));
+                        // Publish to topic                                  iot-2/type/device_type/id/device_id/cmd/command_id/fmt/format_string /type/aweHGH7/id/irri555/
+                        mqttAndroidClient.publish("iot-2/type/aweHGH7/id/irri555/cmd/getsolenoidsstatus/fmt/json", new MqttMessage("".getBytes()));
                     } catch (MqttException ex) {
 
                     }
-
                 }
 
                 @Override
