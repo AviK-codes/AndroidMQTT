@@ -20,10 +20,11 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="126dp"
+        android:layout_marginTop="128dp"
         android:onClick="convertCurrency"
         android:text="@string/convert_string"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.094"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,17 +35,16 @@
         android:layout_marginTop="62dp"
         android:ems="10"
         android:hint="@string/dollar_hint"
-        android:inputType="numberDecimal"
+        android:inputType="textLongMessage|numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
 
     <TextView
         android:id="@+id/dataReceived"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="54dp"
+        android:layout_width="365dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="40dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="@+id/button"
         app:layout_constraintTop_toTopOf="parent" />
