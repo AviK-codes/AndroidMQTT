@@ -1,7 +1,12 @@
 <resources>
-    <string name="app_name">Testing it</string>
-    <string name="convert_string">Convert</string>
-    <string name="textview_txt">TextView</string>
-    <string name="no_value_string">No value</string>
-    <string name="dollar_hint">Dollars 775</string>
+    <string name="app_name">Irrigation Control</string>
+    <string name="button_getdevicesettings">Get Settings</string>
+    <string name="button_config_device_txt">Configure</string>
+    <string name="sunday_txt">Sunday</string>
+    <string name="monday_txt">Monday</string>
+    <string name="tuesday_txt">Tuesday</string>
+    <string name="wednesday_txt">Wednesday</string>
+    <string name="thursday_txt">Thursday</string>
+    <string name="friday_txt">Friday</string>
+    <string name="sturday_txt">Sturday</string>
 </resources>

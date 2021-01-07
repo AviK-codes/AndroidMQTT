@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         final int KEEP_ALIVE_INTERVAL = 200;
 
         dataReceived = (TextView) findViewById(R.id.dataReceived);
-        dataReceived.setMovementMethod(new ScrollingMovementMethod());
+        //dataReceived.setMovementMethod(new ScrollingMovementMethod());
         //dataReceived.setElegantTextHeight(true);
         //dataReceived.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         //dataReceived.setSingleLine(false);
@@ -222,30 +222,10 @@ public class MainActivity extends AppCompatActivity {
         dataReceived.setText(devicedata);
     }
 
-    // prepare json data for sending it to the remote device
-    public void ComposeMsgToDevice()
-    {
-      JSONObject jsonObject = new JSONObject();
-      JSONArray timedarray = new JSONArray();
-      timedarray.put("12");
-      timedarray.put("10");
-      timedarray.put("5");
-      try
-       {
-        jsonObject.put("Sunday", timedarray);
-       }
-       catch (JSONException e)
-       {
-        e.printStackTrace();
-       }
-      Log.w("jsonarray", jsonObject.toString());
-    }
-
     public void setDeviceConfiguration(View view)
     {
-        Intent intent = new Intent(MainActivity.this, MainActivityMqttSetting.
-                class);
-        startActivity(intent);
+     Intent intent = new Intent(MainActivity.this, MainActivityMqttSetting.class);
+     startActivity(intent);
     }
 }
 /*
