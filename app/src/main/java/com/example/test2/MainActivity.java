@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     String subtopic = "iot-2/type/aweHGH7/id/irri555/evt/+/fmt/json";
     public MqttAndroidClient mqttAndroidClient;
     String devicedata="";
+    private static MainActivity instance;
 
     /*
         final String url = "tcp://broker.emqx.io";
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        instance = this;
 
         final int CONNECTION_TIMEOUT = 600;
         final int KEEP_ALIVE_INTERVAL = 200;
@@ -74,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         //dataReceived.setElegantTextHeight(true);
         //dataReceived.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         //dataReceived.setSingleLine(false);
-
+        dataReceived.setMovementMethod(new ScrollingMovementMethod());
         //startMqtt();
         mqttAndroidClient = new MqttAndroidClient(this.getApplicationContext(), url, clientId);
         mqttAndroidClient.setCallback(new MqttCallback() {
@@ -226,6 +228,27 @@ public class MainActivity extends AppCompatActivity {
     {
      Intent intent = new Intent(MainActivity.this, MainActivityMqttSetting.class);
      startActivity(intent);
+    }
+
+    public static MainActivity getInstance() {
+        return instance;
+    }
+
+    public void SetDeviceSettings(String msg_header, String msg)
+    {
+        devicedata="";
+        try {
+            if (link_status == true)
+            {
+                Log.w("Mqtt", "Publishing message..");
+                //mqttAndroidClient.publish("iot-2/type/aweHGH7/id/irri555/cmd/solenoid1daytimeduration/fmt/json", new MqttMessage("{'Sunday' : ['1','1','1'], 'Monday' : ['2','2', '2'], 'Tuesday' : ['3','3','4'], 'wednesday' : ['5','5','5']}".getBytes()));
+                Log.w("jsonarray Sprink header tx", msg_header);
+                Log.w("jsonarray Sprink msg tx", msg);
+                mqttAndroidClient.publish(msg_header, new MqttMessage(msg.getBytes()));
+            }
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
     }
 }
 /*

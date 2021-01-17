@@ -240,17 +240,17 @@ public class MainActivityMqttSetting extends AppCompatActivity
 
         for (int i=0; i<7; i++)
         {
-            timedarray1.put(Soleniod1DayTimeDuration[i][0]);
-            timedarray1.put(Soleniod1DayTimeDuration[i][1]);
-            timedarray1.put(Soleniod1DayTimeDuration[i][2]);
+            timedarray1.put(Integer.toString(Soleniod1DayTimeDuration[i][0]));
+            timedarray1.put(Integer.toString(Soleniod1DayTimeDuration[i][1]));
+            timedarray1.put(Integer.toString(Soleniod1DayTimeDuration[i][2]));
 
-            timedarray2.put(Soleniod2DayTimeDuration[i][0]);
-            timedarray2.put(Soleniod2DayTimeDuration[i][1]);
-            timedarray2.put(Soleniod2DayTimeDuration[i][2]);
+            timedarray2.put(Integer.toString(Soleniod2DayTimeDuration[i][0]));
+            timedarray2.put(Integer.toString(Soleniod2DayTimeDuration[i][1]));
+            timedarray2.put(Integer.toString(Soleniod2DayTimeDuration[i][2]));
 
-            timedarray3.put(Soleniod3DayTimeDuration[i][0]);
-            timedarray3.put(Soleniod3DayTimeDuration[i][1]);
-            timedarray3.put(Soleniod3DayTimeDuration[i][2]);
+            timedarray3.put(Integer.toString(Soleniod3DayTimeDuration[i][0]));
+            timedarray3.put(Integer.toString(Soleniod3DayTimeDuration[i][1]));
+            timedarray3.put(Integer.toString(Soleniod3DayTimeDuration[i][2]));
             try
             {
              jsonObjSprinkler1.put(daysofweek[i], timedarray1);
@@ -271,6 +271,9 @@ public class MainActivityMqttSetting extends AppCompatActivity
         if (createFile(this, "sprinkler1",jsonObjSprinkler1.toString())) Log.w("file1","OK");
         if (createFile(this, "sprinkler2",jsonObjSprinkler2.toString())) Log.w("file2","OK");
         if (createFile(this, "sprinkler3",jsonObjSprinkler3.toString())) Log.w("file3","OK");
+        MainActivity.getInstance().SetDeviceSettings("iot-2/type/aweHGH7/id/irri555/cmd/solenoid1daytimeduration/fmt/json",jsonObjSprinkler1.toString());
+        MainActivity.getInstance().SetDeviceSettings("iot-2/type/aweHGH7/id/irri555/cmd/solenoid2daytimeduration/fmt/json",jsonObjSprinkler2.toString());
+        MainActivity.getInstance().SetDeviceSettings("iot-2/type/aweHGH7/id/irri555/cmd/solenoid3daytimeduration/fmt/json",jsonObjSprinkler3.toString());
     }
 
     private String readFile(Context context, String fileName)
@@ -341,4 +344,5 @@ public class MainActivityMqttSetting extends AppCompatActivity
             e.printStackTrace();
         }
     }
+
 }
