@@ -2,7 +2,6 @@ package com.example.test2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -10,13 +9,8 @@ import android.view.View;
 import android.util.Log;
 
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -155,7 +149,7 @@ public class MainActivityMqttSetting extends AppCompatActivity
      if (sptime==previous_sptime)
       {
        Toast.makeText(getApplicationContext(), "Enter the end time for the sprinkler",Toast.LENGTH_LONG).show();
-       previous_sptime =  (TextView) findViewById(R.id.textView89); // assign the comparison pointer to an unused textview field
+       previous_sptime =  (TextView) findViewById(R.id.textViewSunday); // assign the comparison pointer to an unused textview field
        start_time=false;
       }
      else
