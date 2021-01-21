@@ -42,13 +42,27 @@ public class MainActivity extends AppCompatActivity {
     Authentication Token: z2N6b4m0GCC-C&)7Si
     User ID: a:by94pk:APP1
      */
-    final String url = "ssl://by94pk.messaging.internetofthings.ibmcloud.com:8883";
-    //final String url = "tcp://by94pk.messaging.internetofthings.ibmcloud.com:1883";
-    final String username = "a-by94pk-uexpeh6kli";
-    final String password = "z2N6b4m0GCC-C&)7Si";
-    final String clientId = "a:by94pk:APP1";
-    //final String clientId = "a:by94pk:dsg4";
-    String subtopic = "iot-2/type/aweHGH7/id/irri555/evt/+/fmt/json";
+    //final String url = "ssl://by94pk.messaging.internetofthings.ibmcloud.com:8883";
+    //final String username = "a-by94pk-uexpeh6kli";
+    //final String password = "z2N6b4m0GCC-C&)7Si";
+    //final String clientId = "a:by94pk:APP1";
+
+    //String subtopic = "iot-2/type/aweHGH7/id/irri555/evt/+/fmt/json";
+
+    final String org_id="u1gsdw";
+    final String device_type="IrriCntrl";
+    final String device_id="irri546";
+    final String password = "m7OP37gK8tOi6ETPW&";
+
+    final String url = "ssl://"+org_id+".messaging.internetofthings.ibmcloud.com:8883";
+    final String username = "a-"+org_id+"-aljwpdhub2";
+    final String clientId = "a:"+org_id+":APP1";
+
+    String subtopic = "iot-2/type/"+device_type+"/id/"+device_id+"/evt/+/fmt/json";
+    String topic_solenoid1daytimeduration="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/solenoid1daytimeduration/fmt/json";
+    String topic_solenoid2daytimeduration="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/solenoid2daytimeduration/fmt/json";
+    String topic_solenoid3daytimeduration="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/solenoid3daytimeduration/fmt/json";
+
     public MqttAndroidClient mqttAndroidClient;
     String devicedata="";
     private static MainActivity instance;
@@ -137,19 +151,20 @@ public class MainActivity extends AppCompatActivity {
     public void getDeviceSettings(View view)
     {
         //TextView textView = findViewById(R.id.dataReceived);
+        String topic="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/getsolenoidsstatus/fmt/json";
         devicedata="";
         try {
             if (link_status == true)
              {
               Log.w("Mqtt", "Publishing message..");
-              //mqttAndroidClient.publish("iot-2/type/aweHGH7/id/irri555/cmd/getsolenoidsstatus/fmt/json", new MqttMessage("{'Solenoids' : '?'}".getBytes()));
-              mqttAndroidClient.publish("iot-2/type/aweHGH7/id/irri555/cmd/getdevicetime/fmt/json", new MqttMessage("{'Solenoids' : '?'}".getBytes()));
+              //mqttAndroidClient.publish(topic, new MqttMessage("{'Solenoids' : '?'}".getBytes()));
+              mqttAndroidClient.publish(topic, new MqttMessage("{'Solenoids' : '?'}".getBytes()));
              // Publish to topic iot-2/type/device_type/id/device_id/cmd/command_id/fmt/format_string /type/aweHGH7/id/irri555/
-             //mqttAndroidClient.publish("iot-2/type/aweHGH7/id/irri555/cmd/solenoid1daytimeduration/fmt/json", new MqttMessage("{'Sunday' : ['11','21','31'], 'Monday' : ['22','58', '2'], 'Tuesday' : ['16','30','120'], 'wednesday' : ['15','24','34']}".getBytes()));
-              mqttAndroidClient.publish("iot-2/type/aweHGH7/id/irri555/cmd/getsolenoidsstatus/fmt/json", new MqttMessage("{'Solenoids' : '?'}".getBytes()));
-              mqttAndroidClient.publish("iot-2/type/aweHGH7/id/irri555/cmd/getsolenoidssettings/fmt/json", new MqttMessage("{'solenoid':'1'}".getBytes()));
-              mqttAndroidClient.publish("iot-2/type/aweHGH7/id/irri555/cmd/getsolenoidssettings/fmt/json", new MqttMessage("{'solenoid':'2'}".getBytes()));
-              mqttAndroidClient.publish("iot-2/type/aweHGH7/id/irri555/cmd/getsolenoidssettings/fmt/json", new MqttMessage("{'solenoid':'3'}".getBytes()));
+             //mqttAndroidClient.publish(topic, new MqttMessage("{'Sunday' : ['11','21','31'], 'Monday' : ['22','58', '2'], 'Tuesday' : ['16','30','120'], 'wednesday' : ['15','24','34']}".getBytes()));
+              mqttAndroidClient.publish(topic, new MqttMessage("{'Solenoids' : '?'}".getBytes()));
+              mqttAndroidClient.publish(topic, new MqttMessage("{'solenoid':'1'}".getBytes()));
+              mqttAndroidClient.publish(topic, new MqttMessage("{'solenoid':'2'}".getBytes()));
+              mqttAndroidClient.publish(topic, new MqttMessage("{'solenoid':'3'}".getBytes()));
              }
         } catch (MqttException e) {
             e.printStackTrace();

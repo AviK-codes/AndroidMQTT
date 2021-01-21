@@ -265,9 +265,10 @@ public class MainActivityMqttSetting extends AppCompatActivity
         if (createFile(this, "sprinkler1",jsonObjSprinkler1.toString())) Log.w("file1","OK");
         if (createFile(this, "sprinkler2",jsonObjSprinkler2.toString())) Log.w("file2","OK");
         if (createFile(this, "sprinkler3",jsonObjSprinkler3.toString())) Log.w("file3","OK");
-        MainActivity.getInstance().SetDeviceSettings("iot-2/type/aweHGH7/id/irri555/cmd/solenoid1daytimeduration/fmt/json",jsonObjSprinkler1.toString());
-        MainActivity.getInstance().SetDeviceSettings("iot-2/type/aweHGH7/id/irri555/cmd/solenoid2daytimeduration/fmt/json",jsonObjSprinkler2.toString());
-        MainActivity.getInstance().SetDeviceSettings("iot-2/type/aweHGH7/id/irri555/cmd/solenoid3daytimeduration/fmt/json",jsonObjSprinkler3.toString());
+
+        MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_solenoid1daytimeduration,jsonObjSprinkler1.toString());
+        MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_solenoid2daytimeduration,jsonObjSprinkler2.toString());
+        MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_solenoid3daytimeduration,jsonObjSprinkler3.toString());
     }
 
     private String readFile(Context context, String fileName)

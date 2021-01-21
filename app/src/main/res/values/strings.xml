@@ -8,5 +8,12 @@
     <string name="wednesday_txt">Wednesday</string>
     <string name="thursday_txt">Thursday</string>
     <string name="friday_txt">Friday</string>
-    <string name="sturday_txt">Sturday</string>
+    <string name="saturday_txt">Saturday</string>
+    <string name="sprinkler1toggle_txt">Toggle Sprinkler 1</string>
+    <string name="sprinkler2toggle_txt">Toggle Sprinkler 2</string>
+    <string name="sprinkler3toggle_txt">Toggle Sprinkler 3</string>
+    <string name="sprinkler_3">Sprinkler 3</string>
+    <string name="sprinkler_2">Sprinkler 2</string>
+    <string name="sprinkler_1">Sprinkler 1</string>
+    <string name="togglemsg_txt">Manual sprinklers operation</string>
 </resources>
