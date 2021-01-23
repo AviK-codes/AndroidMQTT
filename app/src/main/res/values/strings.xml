@@ -16,4 +16,6 @@
     <string name="sprinkler_2">Sprinkler 2</string>
     <string name="sprinkler_1">Sprinkler 1</string>
     <string name="togglemsg_txt">Manual sprinklers operation</string>
+    <string name="togglemsgmanualsprinkler1_txt">Sprinkler 1</string>
+    <string name="togglemsg1_txt">Sprinkler 1</string>
 </resources>

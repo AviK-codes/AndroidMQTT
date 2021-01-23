@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     String topic_solenoid1daytimeduration="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/solenoid1daytimeduration/fmt/json";
     String topic_solenoid2daytimeduration="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/solenoid2daytimeduration/fmt/json";
     String topic_solenoid3daytimeduration="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/solenoid3daytimeduration/fmt/json";
+    String topic_setsolenoidsstatus = "iot-2/type/"+device_type+"/id/"+device_id+"/cmd/setsolenoidsstatus/fmt/json";
 
     public MqttAndroidClient mqttAndroidClient;
     String devicedata="";
@@ -151,20 +152,20 @@ public class MainActivity extends AppCompatActivity {
     public void getDeviceSettings(View view)
     {
         //TextView textView = findViewById(R.id.dataReceived);
-        String topic="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/getsolenoidsstatus/fmt/json";
+        String topic_getsolenoidsstatus="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/getsolenoidsstatus/fmt/json";
+        String topic_getsolenoidssettings="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/getsolenoidssettings/fmt/json";
+        String topic_getdevicetime="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/getdevicetime/fmt/json";
+
         devicedata="";
         try {
             if (link_status == true)
              {
               Log.w("Mqtt", "Publishing message..");
-              //mqttAndroidClient.publish(topic, new MqttMessage("{'Solenoids' : '?'}".getBytes()));
-              mqttAndroidClient.publish(topic, new MqttMessage("{'Solenoids' : '?'}".getBytes()));
-             // Publish to topic iot-2/type/device_type/id/device_id/cmd/command_id/fmt/format_string /type/aweHGH7/id/irri555/
-             //mqttAndroidClient.publish(topic, new MqttMessage("{'Sunday' : ['11','21','31'], 'Monday' : ['22','58', '2'], 'Tuesday' : ['16','30','120'], 'wednesday' : ['15','24','34']}".getBytes()));
-              mqttAndroidClient.publish(topic, new MqttMessage("{'Solenoids' : '?'}".getBytes()));
-              mqttAndroidClient.publish(topic, new MqttMessage("{'solenoid':'1'}".getBytes()));
-              mqttAndroidClient.publish(topic, new MqttMessage("{'solenoid':'2'}".getBytes()));
-              mqttAndroidClient.publish(topic, new MqttMessage("{'solenoid':'3'}".getBytes()));
+              mqttAndroidClient.publish(topic_getdevicetime, new MqttMessage("{'time':'?'}".getBytes()));
+              mqttAndroidClient.publish(topic_getsolenoidsstatus, new MqttMessage("{'Solenoids' : '?'}".getBytes()));
+              mqttAndroidClient.publish(topic_getsolenoidssettings, new MqttMessage("{'solenoid':'1'}".getBytes()));
+              mqttAndroidClient.publish(topic_getsolenoidssettings, new MqttMessage("{'solenoid':'2'}".getBytes()));
+              mqttAndroidClient.publish(topic_getsolenoidssettings, new MqttMessage("{'solenoid':'3'}".getBytes()));
              }
         } catch (MqttException e) {
             e.printStackTrace();

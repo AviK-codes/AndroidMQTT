@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -337,6 +338,53 @@ public class MainActivityMqttSetting extends AppCompatActivity
         } catch (IOException e)
         {
             e.printStackTrace();
+        }
+    }
+
+    public void ManualToogleSprinkler(View view)
+    {
+        ToggleButton simpleToggleButton = (ToggleButton) findViewById(view.getId());
+        if (simpleToggleButton == findViewById(R.id.toggleButton1))
+        {
+            boolean on = ((ToggleButton) view).isChecked();
+            if (on)
+            {
+             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus,"{'Solenoid1' : 'ENABLE'}");
+             Log.w("toogle on", "spr1");
+            }
+            else
+            {
+             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus, "{'Solenoid1' : 'DISABLE'}");
+             Log.w("toogle off", "spr1");
+            }
+        }
+        if (simpleToggleButton == findViewById(R.id.toggleButton2))
+        {
+            boolean on = ((ToggleButton) view).isChecked();
+            if (on)
+            {
+             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus,"{'Solenoid2' : 'ENABLE'}");
+             Log.w("toogle on", "spr2");
+            }
+            else
+            {
+             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus,"{'Solenoid2' : 'DISABLE'}");
+             Log.w("toogle off", "spr2");
+            }
+        }
+        if (simpleToggleButton == findViewById(R.id.toggleButton3))
+        {
+            boolean on = ((ToggleButton) view).isChecked();
+            if (on)
+            {
+             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus,"{'Solenoid3' : 'ENABLE'}");
+             Log.w("toogle on", "spr3");
+            }
+            else
+            {
+             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus,"{'Solenoid3' : 'DISABLE'}");
+             Log.w("toogle off", "spr3");
+            }
         }
     }
 

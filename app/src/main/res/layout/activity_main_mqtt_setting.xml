@@ -7,381 +7,387 @@
     android:onClick="ComposeMsgToDevice"
     tools:context=".MainActivityMqttSetting">
 
-    <TableLayout
+    <RelativeLayout
+        android:id="@+id/showdescriptioncontenttitle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginTop="40dp"
-        tools:layout_editor_absoluteX="11dp">
+        android:layout_centerHorizontal="true"
+        android:layout_height="match_parent">
 
-        <TableRow
-            android:id="@+id/row1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/dummi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="15"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/textViewSprinkler1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:text="@string/sprinkler_1" />
-
-            <TextView
-                android:id="@+id/textViewSprinkler2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:text="@string/sprinkler_2" />
-
-            <TextView
-                android:id="@+id/textViewSprinkler3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:text="@string/sprinkler_3" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/row2"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textViewSunday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:text="@string/sunday_txt" />
-
-            <TextView
-                android:id="@+id/textViewsp1d0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:onClick="TimeForSprinklersStart"
-                android:text="sp1d0" />
-
-            <TextView
-                android:id="@+id/textViewsp2d0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:onClick="TimeForSprinklersStart"
-                android:text="sp2d0" />
-
-            <TextView
-                android:id="@+id/textViewsp3d0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:onClick="TimeForSprinklersStart"
-                android:text="sp3d0" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/row3"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textViewMonday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:text="@string/monday_txt" />
-
-            <TextView
-                android:id="@+id/textViewsp1d1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:onClick="TimeForSprinklersStart"
-                android:text="sp1d1" />
-
-            <TextView
-                android:id="@+id/textViewsp2d1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:onClick="TimeForSprinklersStart"
-                android:text="sp2d1" />
-
-            <TextView
-                android:id="@+id/textViewsp3d1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:onClick="TimeForSprinklersStart"
-                android:text="sp3d1" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/row4"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textViewTuesday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:text="@string/tuesday_txt" />
-
-            <TextView
-                android:id="@+id/textViewsp1d2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:onClick="TimeForSprinklersStart"
-                android:text="sp1d2" />
-
-            <TextView
-                android:id="@+id/textViewsp2d2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:onClick="TimeForSprinklersStart"
-                android:text="sp2d2" />
-
-            <TextView
-                android:id="@+id/textViewsp3d2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:onClick="TimeForSprinklersStart"
-                android:text="sp3d2" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/row5"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textViewWedensday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:text="@string/wednesday_txt" />
-
-            <TextView
-                android:id="@+id/textViewsp1d3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:onClick="TimeForSprinklersStart"
-                android:text="sp1d3" />
-
-            <TextView
-                android:id="@+id/textViewsp2d3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:onClick="TimeForSprinklersStart"
-                android:text="sp2d3" />
-
-            <TextView
-                android:id="@+id/textViewsp3d3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:onClick="TimeForSprinklersStart"
-                android:text="sp3d3" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/row6"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textViewThursday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:layout_weight="25"
-                android:text="@string/thursday_txt" />
-
-            <TextView
-                android:id="@+id/textViewsp1d4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:onClick="TimeForSprinklersStart"
-                android:text="sp1d4" />
-
-            <TextView
-                android:id="@+id/textViewsp2d4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:onClick="TimeForSprinklersStart"
-                android:text="sp2d4" />
-
-            <TextView
-                android:id="@+id/textViewsp3d4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:onClick="TimeForSprinklersStart"
-                android:text="sp3d4" />
-
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/row7"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textViewFriday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:text="@string/friday_txt" />
-
-            <TextView
-                android:id="@+id/textViewsp1d5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:onClick="TimeForSprinklersStart"
-                android:text="sp1d5" />
-
-            <TextView
-                android:id="@+id/textViewsp2d5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:onClick="TimeForSprinklersStart"
-                android:text="sp2d5" />
-
-            <TextView
-                android:id="@+id/textViewsp3d5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:onClick="TimeForSprinklersStart"
-                android:text="sp3d5" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/row8"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textViewSaturday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:text="@string/saturday_txt" />
-
-            <TextView
-                android:id="@+id/textViewsp1d6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:onClick="TimeForSprinklersStart"
-                android:text="sp1d6" />
-
-            <TextView
-                android:id="@+id/textViewsp2d6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:onClick="TimeForSprinklersStart"
-                android:text="sp2d6" />
-
-            <TextView
-                android:id="@+id/textViewsp3d6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="25"
-                android:onClick="TimeForSprinklersStart"
-                android:text="sp3d6" />
-
-        </TableRow>
-
-        <RelativeLayout
-            android:id="@+id/showdescriptioncontenttitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:paddingTop="100dp"
-            android:paddingBottom="0dp"
-            tools:ignore="MissingConstraints">
-
-            <Button
-                android:id="@+id/buttonConfigDevice"
-                android:layout_width="160dp"
-                android:layout_height="44dp"
-                android:layout_marginStart="100dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="106dp"
-                android:onClick="ComposeMsgToDevice"
-                android:text="@string/button_config_device_txt"
- />
-
-            <TextView
-                android:id="@+id/textViewtogglemsg"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="120dp"
-                android:text="@string/togglemsg_txt" />
+        <TableLayout
+            android:id="@+id/tbllayout1"
+            android:layout_width="397dp"
+            android:layout_height="338dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="5dp"
+            tools:layout_editor_absoluteX="11dp">
 
             <TableRow
-                android:id="@+id/togglebuttons"
+                android:id="@+id/row1"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginEnd="40dp"
-                android:paddingTop="140dp">
+                android:layout_height="wrap_content">
 
-                <ToggleButton
-                    android:id="@+id/toggleButton"
+                <TextView
+                    android:id="@+id/dummi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="33"
-                    android:text="@string/sprinkler1toggle_txt" />
+                    android:layout_weight="15"
+                    android:text="" />
 
-                <ToggleButton
-                    android:id="@+id/toggleButton2"
+                <TextView
+                    android:id="@+id/textViewSprinkler1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="33"
-                    android:text="@string/sprinkler2toggle_txt" />
+                    android:layout_weight="25"
+                    android:text="@string/sprinkler_1" />
 
-                <ToggleButton
-                    android:id="@+id/toggleButton3"
+                <TextView
+                    android:id="@+id/textViewSprinkler2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="33"
-                    android:text="@string/sprinkler3toggle_txt" />
+                    android:layout_weight="25"
+                    android:text="@string/sprinkler_2" />
+
+                <TextView
+                    android:id="@+id/textViewSprinkler3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:text="@string/sprinkler_3" />
 
             </TableRow>
-        </RelativeLayout>
+
+            <TableRow
+                android:id="@+id/row2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/textViewSunday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:text="@string/sunday_txt" />
+
+                <TextView
+                    android:id="@+id/textViewsp1d0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:onClick="TimeForSprinklersStart"
+                    android:text="sp1d0" />
+
+                <TextView
+                    android:id="@+id/textViewsp2d0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:onClick="TimeForSprinklersStart"
+                    android:text="sp2d0" />
+
+                <TextView
+                    android:id="@+id/textViewsp3d0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:onClick="TimeForSprinklersStart"
+                    android:text="sp3d0" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/textViewMonday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:text="@string/monday_txt" />
+
+                <TextView
+                    android:id="@+id/textViewsp1d1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:onClick="TimeForSprinklersStart"
+                    android:text="sp1d1" />
+
+                <TextView
+                    android:id="@+id/textViewsp2d1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:onClick="TimeForSprinklersStart"
+                    android:text="sp2d1" />
+
+                <TextView
+                    android:id="@+id/textViewsp3d1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:onClick="TimeForSprinklersStart"
+                    android:text="sp3d1" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row4"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/textViewTuesday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:text="@string/tuesday_txt" />
+
+                <TextView
+                    android:id="@+id/textViewsp1d2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:onClick="TimeForSprinklersStart"
+                    android:text="sp1d2" />
+
+                <TextView
+                    android:id="@+id/textViewsp2d2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:onClick="TimeForSprinklersStart"
+                    android:text="sp2d2" />
+
+                <TextView
+                    android:id="@+id/textViewsp3d2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:onClick="TimeForSprinklersStart"
+                    android:text="sp3d2" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row5"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/textViewWedensday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:text="@string/wednesday_txt" />
+
+                <TextView
+                    android:id="@+id/textViewsp1d3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:onClick="TimeForSprinklersStart"
+                    android:text="sp1d3" />
+
+                <TextView
+                    android:id="@+id/textViewsp2d3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:onClick="TimeForSprinklersStart"
+                    android:text="sp2d3" />
+
+                <TextView
+                    android:id="@+id/textViewsp3d3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:onClick="TimeForSprinklersStart"
+                    android:text="sp3d3" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row6"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/textViewThursday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="25"
+                    android:text="@string/thursday_txt" />
+
+                <TextView
+                    android:id="@+id/textViewsp1d4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:onClick="TimeForSprinklersStart"
+                    android:text="sp1d4" />
+
+                <TextView
+                    android:id="@+id/textViewsp2d4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:onClick="TimeForSprinklersStart"
+                    android:text="sp2d4" />
+
+                <TextView
+                    android:id="@+id/textViewsp3d4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:onClick="TimeForSprinklersStart"
+                    android:text="sp3d4" />
 
 
+            </TableRow>
 
-    </TableLayout>
+            <TableRow
+                android:id="@+id/row7"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/textViewFriday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:text="@string/friday_txt" />
+
+                <TextView
+                    android:id="@+id/textViewsp1d5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:onClick="TimeForSprinklersStart"
+                    android:text="sp1d5" />
+
+                <TextView
+                    android:id="@+id/textViewsp2d5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:onClick="TimeForSprinklersStart"
+                    android:text="sp2d5" />
+
+                <TextView
+                    android:id="@+id/textViewsp3d5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:onClick="TimeForSprinklersStart"
+                    android:text="sp3d5" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row8"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/textViewSaturday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:text="@string/saturday_txt" />
+
+                <TextView
+                    android:id="@+id/textViewsp1d6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:onClick="TimeForSprinklersStart"
+                    android:text="sp1d6" />
+
+                <TextView
+                    android:id="@+id/textViewsp2d6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:onClick="TimeForSprinklersStart"
+                    android:text="sp2d6" />
+
+                <TextView
+                    android:id="@+id/textViewsp3d6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:onClick="TimeForSprinklersStart"
+                    android:text="sp3d6" />
+
+            </TableRow>
+
+        </TableLayout>
 
 
+        <Button
+            android:id="@+id/buttonConfigDevice"
+            android:layout_width="160dp"
+            android:layout_height="44dp"
+            android:layout_centerHorizontal="true"
+            android:onClick="ComposeMsgToDevice"
+            android:layout_below="@+id/tbllayout1"
+            android:text="@string/button_config_device_txt" />
+
+        <TextView
+            android:id="@+id/textViewtogglemsg"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@+id/buttonConfigDevice"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:text="@string/togglemsg_txt" />
+
+        <TableRow
+
+            android:id="@+id/togglebuttons"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewtogglemsg"
+            android:layout_centerHorizontal="true">
+
+            <ToggleButton
+                android:id="@+id/toggleButton1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="33"
+                android:onClick="ManualToogleSprinkler"
+                android:text="@string/sprinkler1toggle_txt" />
+
+            <ToggleButton
+                android:id="@+id/toggleButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="33"
+                android:onClick="ManualToogleSprinkler"
+                android:text="@string/sprinkler2toggle_txt" />
+
+            <ToggleButton
+                android:id="@+id/toggleButton3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="33"
+                android:onClick="ManualToogleSprinkler"
+                android:text="@string/sprinkler3toggle_txt"
+                android:transitionName="togglebutton3" />
+
+        </TableRow>
+
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
