@@ -18,4 +18,7 @@
     <string name="togglemsg_txt">Manual sprinklers operation</string>
     <string name="togglemsgmanualsprinkler1_txt">Sprinkler 1</string>
     <string name="togglemsg1_txt">Sprinkler 1</string>
+    <string name="button_disable_device_txt">Disable Irrigation</string>
+    <string name="txt_disable_irrigation">Irrigation disabled</string>
+    <string name="txt_enable_irrigation">Irrigation enabled</string>
 </resources>

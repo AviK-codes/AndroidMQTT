@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.view.KeyEvent;
 import android.view.View;
 import android.util.Log;
 
@@ -43,18 +45,22 @@ public class MainActivityMqttSetting extends AppCompatActivity
     JSONObject jsonObjSprinkler11;
     JSONObject jsonObjSprinkler22;
     JSONObject jsonObjSprinkler33;
+    ToggleButton tbutton;
 
     public TextView previous_sptime;
     boolean start_time = true;
     public int first_hour = 0, first_minute = 0, second_hour, second_minute;
+    private static MainActivityMqttSetting instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_mqtt_setting);
+        instance = this;
         String spname;
         boolean is_file = false;
+        tbutton= (ToggleButton) findViewById(R.id.buttonConfigDevice);
 
         try
         {
@@ -233,43 +239,58 @@ public class MainActivityMqttSetting extends AppCompatActivity
         JSONArray timedarray2 = new JSONArray();
         JSONArray timedarray3 = new JSONArray();
 
-        for (int i=0; i<7; i++)
+        boolean on = ((ToggleButton) view).isChecked();
+        if (on)
         {
-            timedarray1.put(Integer.toString(Soleniod1DayTimeDuration[i][0]));
-            timedarray1.put(Integer.toString(Soleniod1DayTimeDuration[i][1]));
-            timedarray1.put(Integer.toString(Soleniod1DayTimeDuration[i][2]));
+            MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setirrigationstate,"{'Irrigation' : 'ENABLE'}");
+            MainActivity.getInstance().DeviceIrrigationStatus=true;
+            Log.w("Irrigation enabled", "Irri");
 
-            timedarray2.put(Integer.toString(Soleniod2DayTimeDuration[i][0]));
-            timedarray2.put(Integer.toString(Soleniod2DayTimeDuration[i][1]));
-            timedarray2.put(Integer.toString(Soleniod2DayTimeDuration[i][2]));
+            for (int i = 0; i < 7; i++)
+            {
+                timedarray1.put(Integer.toString(Soleniod1DayTimeDuration[i][0]));
+                timedarray1.put(Integer.toString(Soleniod1DayTimeDuration[i][1]));
+                timedarray1.put(Integer.toString(Soleniod1DayTimeDuration[i][2]));
 
-            timedarray3.put(Integer.toString(Soleniod3DayTimeDuration[i][0]));
-            timedarray3.put(Integer.toString(Soleniod3DayTimeDuration[i][1]));
-            timedarray3.put(Integer.toString(Soleniod3DayTimeDuration[i][2]));
-            try
-            {
-             jsonObjSprinkler1.put(daysofweek[i], timedarray1);
-             jsonObjSprinkler2.put(daysofweek[i], timedarray2);
-             jsonObjSprinkler3.put(daysofweek[i], timedarray3);
-            } catch (JSONException e)
-            {
-                e.printStackTrace();
+                timedarray2.put(Integer.toString(Soleniod2DayTimeDuration[i][0]));
+                timedarray2.put(Integer.toString(Soleniod2DayTimeDuration[i][1]));
+                timedarray2.put(Integer.toString(Soleniod2DayTimeDuration[i][2]));
+
+                timedarray3.put(Integer.toString(Soleniod3DayTimeDuration[i][0]));
+                timedarray3.put(Integer.toString(Soleniod3DayTimeDuration[i][1]));
+                timedarray3.put(Integer.toString(Soleniod3DayTimeDuration[i][2]));
+                try
+                {
+                    jsonObjSprinkler1.put(daysofweek[i], timedarray1);
+                    jsonObjSprinkler2.put(daysofweek[i], timedarray2);
+                    jsonObjSprinkler3.put(daysofweek[i], timedarray3);
+                } catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+                timedarray1 = new JSONArray();
+                timedarray2 = new JSONArray();
+                timedarray3 = new JSONArray();
             }
-            timedarray1 = new JSONArray();
-            timedarray2 = new JSONArray();
-            timedarray3 = new JSONArray();
+            Log.w("jsonarray Sprink 1", jsonObjSprinkler1.toString());
+            Log.w("jsonarray Sprink 2", jsonObjSprinkler2.toString());
+            Log.w("jsonarray Sprink 3", jsonObjSprinkler3.toString());
+
+            if (createFile(this, "sprinkler1", jsonObjSprinkler1.toString())) Log.w("file1", "OK");
+            if (createFile(this, "sprinkler2", jsonObjSprinkler2.toString())) Log.w("file2", "OK");
+            if (createFile(this, "sprinkler3", jsonObjSprinkler3.toString())) Log.w("file3", "OK");
+
+            MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_solenoid1daytimeduration, jsonObjSprinkler1.toString());
+            MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_solenoid2daytimeduration, jsonObjSprinkler2.toString());
+            MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_solenoid3daytimeduration, jsonObjSprinkler3.toString());
+
         }
-        Log.w("jsonarray Sprink 1", jsonObjSprinkler1.toString());
-        Log.w("jsonarray Sprink 2", jsonObjSprinkler2.toString());
-        Log.w("jsonarray Sprink 3", jsonObjSprinkler3.toString());
-
-        if (createFile(this, "sprinkler1",jsonObjSprinkler1.toString())) Log.w("file1","OK");
-        if (createFile(this, "sprinkler2",jsonObjSprinkler2.toString())) Log.w("file2","OK");
-        if (createFile(this, "sprinkler3",jsonObjSprinkler3.toString())) Log.w("file3","OK");
-
-        MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_solenoid1daytimeduration,jsonObjSprinkler1.toString());
-        MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_solenoid2daytimeduration,jsonObjSprinkler2.toString());
-        MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_solenoid3daytimeduration,jsonObjSprinkler3.toString());
+        else
+        {
+            MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setirrigationstate, "{'Irrigation' : 'DISABLE'}");
+            MainActivity.getInstance().DeviceIrrigationStatus = false;
+            Log.w("Irrigation disabled", "Irri");
+        }
     }
 
     private String readFile(Context context, String fileName)
@@ -388,4 +409,33 @@ public class MainActivityMqttSetting extends AppCompatActivity
         }
     }
 
+    public void DisableDeviceIrrigation(View view)
+    {
+        boolean on = ((ToggleButton) view).isChecked();
+        if (on)
+        {
+            MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setirrigationstate,"{'Irrigation' : 'ENABLE'}");
+            MainActivity.getInstance().DeviceIrrigationStatus=true;
+            Log.w("Irrigation enabled", "Irri");
+        }
+        else
+        {
+            MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setirrigationstate,"{'Irrigation' : 'DISABLE'}");
+            MainActivity.getInstance().DeviceIrrigationStatus=false;
+            Log.w("Irrigation disabled", "Irri");
+        }
+    }
+
+    public static MainActivityMqttSetting getInstance() {
+        return instance;
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK)
+        {
+            MainActivity.getInstance().pollDeviceForItsSettings();
+            //return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

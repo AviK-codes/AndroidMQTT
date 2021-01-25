@@ -63,11 +63,13 @@ public class MainActivity extends AppCompatActivity {
     String topic_solenoid2daytimeduration="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/solenoid2daytimeduration/fmt/json";
     String topic_solenoid3daytimeduration="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/solenoid3daytimeduration/fmt/json";
     String topic_setsolenoidsstatus = "iot-2/type/"+device_type+"/id/"+device_id+"/cmd/setsolenoidsstatus/fmt/json";
+    String topic_setirrigationstate= "iot-2/type/"+device_type+"/id/"+device_id+"/cmd/setirrigationstate/fmt/json";
 
     public MqttAndroidClient mqttAndroidClient;
     String devicedata="";
     private static MainActivity instance;
-
+    boolean DeviceIrrigationStatus= true;
+    String mqttmsgirrigationstat="";
     /*
         final String url = "tcp://broker.emqx.io";
         final String username = "";
@@ -151,6 +153,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void getDeviceSettings(View view)
     {
+        pollDeviceForItsSettings();
+    }
+
+    public void pollDeviceForItsSettings()
+    {
         //TextView textView = findViewById(R.id.dataReceived);
         String topic_getsolenoidsstatus="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/getsolenoidsstatus/fmt/json";
         String topic_getsolenoidssettings="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/getsolenoidssettings/fmt/json";
@@ -159,14 +166,14 @@ public class MainActivity extends AppCompatActivity {
         devicedata="";
         try {
             if (link_status == true)
-             {
-              Log.w("Mqtt", "Publishing message..");
-              mqttAndroidClient.publish(topic_getdevicetime, new MqttMessage("{'time':'?'}".getBytes()));
-              mqttAndroidClient.publish(topic_getsolenoidsstatus, new MqttMessage("{'Solenoids' : '?'}".getBytes()));
-              mqttAndroidClient.publish(topic_getsolenoidssettings, new MqttMessage("{'solenoid':'1'}".getBytes()));
-              mqttAndroidClient.publish(topic_getsolenoidssettings, new MqttMessage("{'solenoid':'2'}".getBytes()));
-              mqttAndroidClient.publish(topic_getsolenoidssettings, new MqttMessage("{'solenoid':'3'}".getBytes()));
-             }
+            {
+                Log.w("Mqtt", "Publishing message..");
+                mqttAndroidClient.publish(topic_getdevicetime, new MqttMessage("{'time':'?'}".getBytes()));
+                mqttAndroidClient.publish(topic_getsolenoidsstatus, new MqttMessage("{'Solenoids' : '?'}".getBytes()));
+                mqttAndroidClient.publish(topic_getsolenoidssettings, new MqttMessage("{'solenoid':'1'}".getBytes()));
+                mqttAndroidClient.publish(topic_getsolenoidssettings, new MqttMessage("{'solenoid':'2'}".getBytes()));
+                mqttAndroidClient.publish(topic_getsolenoidssettings, new MqttMessage("{'solenoid':'3'}".getBytes()));
+            }
         } catch (MqttException e) {
             e.printStackTrace();
         }
@@ -192,9 +199,20 @@ public class MainActivity extends AppCompatActivity {
         String sprinkler1stat = reader.optString("Solenoid1"); // using optString instead of getString saves the exception in case a key value is missing
         String sprinkler2stat = reader.optString("Solenoid2");
         String sprinkler3stat = reader.optString("Solenoid3");
-        devicedata += "\nSprinklers current status:\nSprinkler 1 is: " + sprinkler1stat + ", Sprinkler 2 is: " + sprinkler2stat + ", Sprinkler 3 is: " + sprinkler3stat;
+          mqttmsgirrigationstat = reader.optString("Irrigation");
+        devicedata += "\nIrrigation is: "+mqttmsgirrigationstat+"\nSprinklers current status:\nSprinkler 1 is: " + sprinkler1stat + ", Sprinkler 2 is: " + sprinkler2stat + ", Sprinkler 3 is: " + sprinkler3stat;
       }
 
+     if (!mqttmsgirrigationstat.isEmpty())
+     {
+      if (mqttmsgirrigationstat.equalsIgnoreCase("Enabled")) DeviceIrrigationStatus = true;
+      else DeviceIrrigationStatus = false;
+      MainActivityMqttSetting aa=MainActivityMqttSetting.getInstance();
+      if (aa!=null)
+      {
+          MainActivityMqttSetting.getInstance().tbutton.setChecked(DeviceIrrigationStatus);
+      }
+     }
      if (topic.contains("reportsolenoidssettings"))
        {
         try
@@ -242,6 +260,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void setDeviceConfiguration(View view)
     {
+     pollDeviceForItsSettings();
      Intent intent = new Intent(MainActivity.this, MainActivityMqttSetting.class);
      startActivity(intent);
     }
@@ -257,7 +276,6 @@ public class MainActivity extends AppCompatActivity {
             if (link_status == true)
             {
                 Log.w("Mqtt", "Publishing message..");
-                //mqttAndroidClient.publish("iot-2/type/aweHGH7/id/irri555/cmd/solenoid1daytimeduration/fmt/json", new MqttMessage("{'Sunday' : ['1','1','1'], 'Monday' : ['2','2', '2'], 'Tuesday' : ['3','3','4'], 'wednesday' : ['5','5','5']}".getBytes()));
                 Log.w("jsonarray Sprink header tx", msg_header);
                 Log.w("jsonarray Sprink msg tx", msg);
                 mqttAndroidClient.publish(msg_header, new MqttMessage(msg.getBytes()));
