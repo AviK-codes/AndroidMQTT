@@ -11,6 +11,9 @@ import android.view.View;
 import android.util.Log;
 
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -45,7 +48,8 @@ public class MainActivityMqttSetting extends AppCompatActivity
     JSONObject jsonObjSprinkler11;
     JSONObject jsonObjSprinkler22;
     JSONObject jsonObjSprinkler33;
-    ToggleButton tbutton;
+    CheckBox chkbox;
+    private NumberPicker picker_manual_time;
 
     public TextView previous_sptime;
     boolean start_time = true;
@@ -60,7 +64,25 @@ public class MainActivityMqttSetting extends AppCompatActivity
         instance = this;
         String spname;
         boolean is_file = false;
-        tbutton= (ToggleButton) findViewById(R.id.buttonConfigDevice);
+        chkbox= (CheckBox) findViewById(R.id.checkBoxDisEna);
+        picker_manual_time = findViewById(R.id.numberpicker_main_picker);
+        picker_manual_time.setMaxValue(60);
+        picker_manual_time.setMinValue(1);
+
+        picker_manual_time.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                int valuePicker1 = picker_manual_time.getValue();
+                Log.d("picker value", String. valueOf(valuePicker1));
+            }
+        });
+
+        final Button button = (Button) findViewById(R.id.buttonConfigDevice);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ComposeMsgToDevice();
+            }
+        });
 
         try
         {
@@ -231,15 +253,15 @@ public class MainActivityMqttSetting extends AppCompatActivity
     }
 
     // prepare json data for sending it to the remote device
-    public void ComposeMsgToDevice(View view)
+    public void ComposeMsgToDevice()
     {
         String daysofweek[]={"Sunday","Monday","Tuesday","wednesday","Thursday","Friday","Saturday"};
 
         JSONArray timedarray1 = new JSONArray();
         JSONArray timedarray2 = new JSONArray();
         JSONArray timedarray3 = new JSONArray();
-
-        boolean on = ((ToggleButton) view).isChecked();
+        CheckBox chkbox=findViewById(R.id.checkBoxDisEna);
+        boolean on = ((CheckBox) chkbox).isChecked();
         if (on)
         {
             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setirrigationstate,"{'Irrigation' : 'ENABLE'}");
@@ -370,12 +392,12 @@ public class MainActivityMqttSetting extends AppCompatActivity
             boolean on = ((ToggleButton) view).isChecked();
             if (on)
             {
-             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus,"{'Solenoid1' : 'ENABLE'}");
+             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus,"{'Solenoid1' : ['ENABLE' , '5']}");
              Log.w("toogle on", "spr1");
             }
             else
             {
-             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus, "{'Solenoid1' : 'DISABLE'}");
+             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus, "{'Solenoid1' : ['DISABLE' , '0']}");
              Log.w("toogle off", "spr1");
             }
         }
@@ -384,12 +406,12 @@ public class MainActivityMqttSetting extends AppCompatActivity
             boolean on = ((ToggleButton) view).isChecked();
             if (on)
             {
-             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus,"{'Solenoid2' : 'ENABLE'}");
+             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus,"{'Solenoid2' : ['ENABLE', '4']}");
              Log.w("toogle on", "spr2");
             }
             else
             {
-             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus,"{'Solenoid2' : 'DISABLE'}");
+             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus,"{'Solenoid2' : ['DISABLE', '0']}");
              Log.w("toogle off", "spr2");
             }
         }
@@ -398,44 +420,35 @@ public class MainActivityMqttSetting extends AppCompatActivity
             boolean on = ((ToggleButton) view).isChecked();
             if (on)
             {
-             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus,"{'Solenoid3' : 'ENABLE'}");
+             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus,"{'Solenoid3' : ['ENABLE', '3']}");
              Log.w("toogle on", "spr3");
             }
             else
             {
-             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus,"{'Solenoid3' : 'DISABLE'}");
+             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus,"{'Solenoid3' : ['DISABLE', '0']}");
              Log.w("toogle off", "spr3");
             }
         }
     }
 
-    public void DisableDeviceIrrigation(View view)
+    public static MainActivityMqttSetting getInstance()
     {
-        boolean on = ((ToggleButton) view).isChecked();
-        if (on)
-        {
-            MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setirrigationstate,"{'Irrigation' : 'ENABLE'}");
-            MainActivity.getInstance().DeviceIrrigationStatus=true;
-            Log.w("Irrigation enabled", "Irri");
-        }
-        else
-        {
-            MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setirrigationstate,"{'Irrigation' : 'DISABLE'}");
-            MainActivity.getInstance().DeviceIrrigationStatus=false;
-            Log.w("Irrigation disabled", "Irri");
-        }
-    }
-
-    public static MainActivityMqttSetting getInstance() {
         return instance;
     }
 
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
         if (keyCode == KeyEvent.KEYCODE_BACK)
         {
             MainActivity.getInstance().pollDeviceForItsSettings();
             //return false;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+
+    public void setDisablechkbox(boolean state)
+    {
+        chkbox.setChecked(state);
     }
 }

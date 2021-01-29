@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:onClick="ComposeMsgToDevice"
     tools:context=".MainActivityMqttSetting">
 
     <RelativeLayout
@@ -39,6 +38,7 @@
                     android:id="@+id/textViewSprinkler1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical|left"
                     android:layout_weight="25"
                     android:text="@string/sprinkler_1" />
 
@@ -46,6 +46,7 @@
                     android:id="@+id/textViewSprinkler2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical|left"
                     android:layout_weight="25"
                     android:text="@string/sprinkler_2" />
 
@@ -53,6 +54,7 @@
                     android:id="@+id/textViewSprinkler3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical|left"
                     android:layout_weight="25"
                     android:text="@string/sprinkler_3" />
 
@@ -68,6 +70,7 @@
                     android:id="@+id/textViewSunday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical|left"
                     android:layout_weight="25"
                     android:text="@string/sunday_txt" />
 
@@ -107,6 +110,7 @@
                     android:id="@+id/textViewMonday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical|left"
                     android:layout_weight="25"
                     android:text="@string/monday_txt" />
 
@@ -146,6 +150,7 @@
                     android:id="@+id/textViewTuesday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical|left"
                     android:layout_weight="25"
                     android:text="@string/tuesday_txt" />
 
@@ -185,6 +190,7 @@
                     android:id="@+id/textViewWedensday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical|left"
                     android:layout_weight="25"
                     android:text="@string/wednesday_txt" />
 
@@ -224,6 +230,7 @@
                     android:id="@+id/textViewThursday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical|left"
                     android:layout_marginTop="2dp"
                     android:layout_weight="25"
                     android:text="@string/thursday_txt" />
@@ -265,6 +272,7 @@
                     android:id="@+id/textViewFriday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical|left"
                     android:layout_weight="25"
                     android:text="@string/friday_txt" />
 
@@ -304,6 +312,7 @@
                     android:id="@+id/textViewSaturday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical|left"
                     android:layout_weight="25"
                     android:text="@string/saturday_txt" />
 
@@ -336,16 +345,13 @@
         </TableLayout>
 
 
-        <ToggleButton
+        <Button
             android:id="@+id/buttonConfigDevice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tbllayout1"
             android:layout_centerHorizontal="true"
-            android:onClick="ComposeMsgToDevice"
-            android:text="@string/button_config_device_txt"
-            android:textOff="@string/txt_disable_irrigation"
-            android:textOn="@string/txt_enable_irrigation" />
+            android:text="@string/button_config_device_txt" />
 
         <TextView
             android:id="@+id/textViewtogglemsg"
@@ -390,6 +396,23 @@
                 android:transitionName="togglebutton3" />
 
         </TableRow>
+
+        <NumberPicker
+            android:id="@+id/numberpicker_main_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/togglebuttons"/>
+
+        <CheckBox
+            android:id="@+id/checkBoxDisEna"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/txt_chkbox_enable_irrigation" />
 
     </RelativeLayout>
 

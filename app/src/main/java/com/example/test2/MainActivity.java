@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
       MainActivityMqttSetting aa=MainActivityMqttSetting.getInstance();
       if (aa!=null)
       {
-          MainActivityMqttSetting.getInstance().tbutton.setChecked(DeviceIrrigationStatus);
+          MainActivityMqttSetting.getInstance().setDisablechkbox(DeviceIrrigationStatus);
       }
      }
      if (topic.contains("reportsolenoidssettings"))
