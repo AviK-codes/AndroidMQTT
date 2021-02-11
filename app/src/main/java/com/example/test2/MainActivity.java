@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     String devicedata="";
     private static MainActivity instance;
     String mqttmsgirrigationstat="";
+    boolean linkerrstate=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +65,6 @@ public class MainActivity extends AppCompatActivity {
 
         dataReceived = (TextView) findViewById(R.id.dataReceived);
         dataReceived.setMovementMethod(new ScrollingMovementMethod());
-
-        Button buttonconnect= (Button)findViewById(R.id.buttonConnec);
-        buttonconnect.setVisibility(View.INVISIBLE);
 
         ConnectToMQTTServer(null);
     }
@@ -105,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
      // https://www.tutorialspoint.com/android/android_json_parser.htm
      JSONArray timeinday;
      String daysofweek[]={"Sunday","Monday","Tuesday","wednesday","Thursday","Friday","Saturday"};
+
+     SetButtonsText(true);
 
      JSONObject reader = new JSONObject(data.toString());
      MainActivityMqttSetting settingform=MainActivityMqttSetting.getInstance(); // retrieve pointer of the second activity which contains the setting forms
@@ -239,8 +239,11 @@ public class MainActivity extends AppCompatActivity {
            public void connectionLost(Throwable cause) {
                Log.w("Mqtt", "Connection was lost!");
 
-               Button buttonconnect= (Button)findViewById(R.id.buttonConnec);
-               buttonconnect.setVisibility(View.VISIBLE);
+               if (linkerrstate)
+               {
+                SetButtonsText(false);
+               }
+               linkerrstate=true;
            }
 
            @Override
@@ -263,9 +266,6 @@ public class MainActivity extends AppCompatActivity {
 
                    Log.w("Mqtt", "Connection Success!");
 
-                   Button buttonconnect= (Button)findViewById(R.id.buttonConnec);
-                   buttonconnect.setVisibility(View.INVISIBLE);
-
                    pollDeviceForItsSettings();
 
                        try
@@ -283,8 +283,20 @@ public class MainActivity extends AppCompatActivity {
                @Override
                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
                    Log.w("Mqtt", "Connection Failure!");
-                   Button buttonconnect= (Button)findViewById(R.id.buttonConnec);
-                   buttonconnect.setVisibility(View.VISIBLE);
+                   String msg="not connected due to failure";
+                   if (mqttAndroidClient.isConnected())
+                   {
+                    SetButtonsText(true);
+                    linkerrstate=false;
+                    msg = "connection resumed!";
+                   }
+                   else
+                   {
+                    SetButtonsText(false);
+                    linkerrstate=true;
+                   }
+
+                   Log.w("Mqtt",msg);
                }
            });
        } catch (MqttException ex) {
@@ -292,6 +304,23 @@ public class MainActivity extends AppCompatActivity {
        }
    }
 
+   void SetButtonsText(boolean set)
+   {
+     if (set)
+     {
+         Button button1 = (Button) findViewById(R.id.button_getDeviceSettings);
+         button1.setText("קבל נתוני השקיה");
+         Button button2 = (Button) findViewById(R.id.button_configDeviceSettings);
+         button2.setText("עדכן זמני השקיה");
+     }
+     else
+     {
+         Button button1 = (Button) findViewById(R.id.button_getDeviceSettings);
+         button1.setText("אין שרת...");
+         Button button2 = (Button) findViewById(R.id.button_configDeviceSettings);
+         button2.setText("אין שרת...");
+     }
+   }
 }
 
 class LinkStatus {
