@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">בקרת מערכת השקיה</string>
+    <string name="app_name">בקרת מערכת השקיה V1</string>
     <string name="button_getdevicesettings">קבל נתוני השקיה</string>
     <string name="button_config_device_txt">עדכן זמני השקיה</string>
     <string name="sunday_txt"> ראשון</string>

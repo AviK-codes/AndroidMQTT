@@ -1,4 +1,4 @@
-package com.example.test2;
+package com.example.IrrigationAppMQTT;
 
 import androidx.appcompat.app.AppCompatActivity;
 

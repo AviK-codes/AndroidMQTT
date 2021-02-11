@@ -1,4 +1,4 @@
-package com.example.test2;
+package com.example.IrrigationAppMQTT;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -321,19 +321,5 @@ public class MainActivity extends AppCompatActivity {
          button2.setText("אין שרת...");
      }
    }
-}
-
-class LinkStatus {
-    private boolean status=false; // private = restricted access
-
-    // Getter
-    public boolean getStatus() {
-        return status;
-    }
-
-    // Setter
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
 }
 
