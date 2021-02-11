@@ -22,4 +22,5 @@
     <string name="txt_disable_irrigation">Irrigation disabled</string>
     <string name="txt_enable_irrigation">Irrigation enabled</string>
     <string name="txt_chkbox_enable_irrigation">איפשור מערכת השקיה</string>
+    <string name="button_connect_txt">התחבר לשרת</string>
 </resources>

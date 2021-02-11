@@ -265,7 +265,6 @@ public class MainActivityMqttSetting extends AppCompatActivity
         if (on)
         {
             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setirrigationstate,"{'Irrigation' : 'ENABLE'}");
-            MainActivity.getInstance().DeviceIrrigationStatus=true;
             Log.w("Irrigation enabled", "Irri");
 
             for (int i = 0; i < 7; i++)
@@ -310,7 +309,6 @@ public class MainActivityMqttSetting extends AppCompatActivity
         else
         {
             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setirrigationstate, "{'Irrigation' : 'DISABLE'}");
-            MainActivity.getInstance().DeviceIrrigationStatus = false;
             Log.w("Irrigation disabled", "Irri");
         }
     }
@@ -392,7 +390,8 @@ public class MainActivityMqttSetting extends AppCompatActivity
             boolean on = ((ToggleButton) view).isChecked();
             if (on)
             {
-             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus,"{'Solenoid1' : ['ENABLE' , '5']}");
+             String mqttjsonmsg = "{'Solenoid1' : ['ENABLE' , '"+ String.valueOf(picker_manual_time.getValue()) + "' ]}";
+             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus,mqttjsonmsg);
              Log.w("toogle on", "spr1");
             }
             else
@@ -406,7 +405,8 @@ public class MainActivityMqttSetting extends AppCompatActivity
             boolean on = ((ToggleButton) view).isChecked();
             if (on)
             {
-             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus,"{'Solenoid2' : ['ENABLE', '4']}");
+             String mqttjsonmsg = "{'Solenoid2' : ['ENABLE' , '"+ String.valueOf(picker_manual_time.getValue()) + "' ]}";
+             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus,mqttjsonmsg);
              Log.w("toogle on", "spr2");
             }
             else
@@ -420,7 +420,8 @@ public class MainActivityMqttSetting extends AppCompatActivity
             boolean on = ((ToggleButton) view).isChecked();
             if (on)
             {
-             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus,"{'Solenoid3' : ['ENABLE', '3']}");
+             String mqttjsonmsg = "{'Solenoid3' : ['ENABLE' , '"+ String.valueOf(picker_manual_time.getValue()) + "' ]}";
+             MainActivity.getInstance().SetDeviceSettings(MainActivity.getInstance().topic_setsolenoidsstatus,mqttjsonmsg);
              Log.w("toogle on", "spr3");
             }
             else
@@ -450,5 +451,22 @@ public class MainActivityMqttSetting extends AppCompatActivity
     public void setDisablechkbox(boolean state)
     {
         chkbox.setChecked(state);
+    }
+
+    public void setManualIrriToggSwitchState(String solenoid1, String solenoid2, String solenoid3)
+    {
+        ToggleButton simpleToggleButton;
+        simpleToggleButton = findViewById(R.id.toggleButton1);
+
+        if (solenoid1.equalsIgnoreCase("ON")) simpleToggleButton.setChecked(true);
+            else simpleToggleButton.setChecked(false);
+        simpleToggleButton = findViewById(R.id.toggleButton2);
+
+        if (solenoid2.equalsIgnoreCase("ON")) simpleToggleButton.setChecked(true);
+            else simpleToggleButton.setChecked(false);
+
+        simpleToggleButton = findViewById(R.id.toggleButton3);
+        if (solenoid3.equalsIgnoreCase("ON")) simpleToggleButton.setChecked(true);
+            else simpleToggleButton.setChecked(false);
     }
 }

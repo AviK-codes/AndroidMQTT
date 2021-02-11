@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
+import org.eclipse.paho.android.service.MqttService;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
@@ -68,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
     public MqttAndroidClient mqttAndroidClient;
     String devicedata="";
     private static MainActivity instance;
-    boolean DeviceIrrigationStatus= true;
     String mqttmsgirrigationstat="";
     /*
         final String url = "tcp://broker.emqx.io";
@@ -77,16 +77,17 @@ public class MainActivity extends AppCompatActivity {
         String clientId = "aaa";
         String subtopic = "/sensor/temp";
     */
-    boolean link_status = false;
+
+    // LinkStatus linkstatus= new LinkStatus();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         instance = this;
 
-        final int CONNECTION_TIMEOUT = 600;
-        final int KEEP_ALIVE_INTERVAL = 200;
+
 
         dataReceived = (TextView) findViewById(R.id.dataReceived);
         //dataReceived.setMovementMethod(new ScrollingMovementMethod());
@@ -95,65 +96,17 @@ public class MainActivity extends AppCompatActivity {
         //dataReceived.setSingleLine(false);
         dataReceived.setMovementMethod(new ScrollingMovementMethod());
         //startMqtt();
-        mqttAndroidClient = new MqttAndroidClient(this.getApplicationContext(), url, clientId);
-        mqttAndroidClient.setCallback(new MqttCallback() {
-            @Override
-            public void connectionLost(Throwable cause) {
-                Log.w("Mqtt", "Connection was lost!");
-                link_status = false;
-            }
 
-            @Override
-            public void messageArrived(String topic, MqttMessage message) throws Exception {
-                Log.w("Mqtt","Message Arrived!: " + topic + ": " + new String(message.getPayload()));
-                Log.w("Mqtt", message.toString());
-                SednDeviceDataToScreen(topic, message.toString());
-            }
 
-            @Override
-            public void deliveryComplete(IMqttDeliveryToken token) {
-                Log.w("Mqtt", "Delivery Complete");
-            }
-        });
 
-        MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
-        mqttConnectOptions.setAutomaticReconnect(true);
-        mqttConnectOptions.setCleanSession(false);
-        mqttConnectOptions.setConnectionTimeout(CONNECTION_TIMEOUT);
-        mqttConnectOptions.setKeepAliveInterval(KEEP_ALIVE_INTERVAL);
-        mqttConnectOptions.setUserName(username);
-        mqttConnectOptions.setPassword(password.toCharArray());
 
-        try {
-            mqttAndroidClient.connect(mqttConnectOptions, null, new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) {
-                    link_status = true;
-                    Log.w("Mqtt", "Connection Success!");
-                    try {
-                        Log.w("Mqtt", "Subscribing to");
-                        Log.w("Mqtt", subtopic);
-                        mqttAndroidClient.subscribe(subtopic, 0);
-                        Log.w("Mqtt","Subscribed to topic"); // subscribe to all topics coming from device
-                    } catch (MqttException ex) {
-
-                    }
-                }
-
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    Log.w("Mqtt", "Connection Failure!");
-                    link_status = false;
-                }
-            });
-        } catch (MqttException ex) {
-
-        }
     }
 
     public void getDeviceSettings(View view)
     {
         pollDeviceForItsSettings();
+        devicedata="";
+        dataReceived.setText("");
     }
 
     public void pollDeviceForItsSettings()
@@ -163,9 +116,8 @@ public class MainActivity extends AppCompatActivity {
         String topic_getsolenoidssettings="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/getsolenoidssettings/fmt/json";
         String topic_getdevicetime="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/getdevicetime/fmt/json";
 
-        devicedata="";
         try {
-            if (link_status == true)
+            if ((mqttAndroidClient!=null)&&mqttAndroidClient.isConnected())
             {
                 Log.w("Mqtt", "Publishing message..");
                 mqttAndroidClient.publish(topic_getdevicetime, new MqttMessage("{'time':'?'}".getBytes()));
@@ -187,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
      String daysofweek[]={"Sunday","Monday","Tuesday","wednesday","Thursday","Friday","Saturday"};
 
      JSONObject reader = new JSONObject(data.toString());
+     MainActivityMqttSetting settingform=MainActivityMqttSetting.getInstance(); // retrieve pointer of the second activity which contains the setting forms
 
      if (topic.contains("devicetimestatus"))
       {
@@ -199,20 +152,29 @@ public class MainActivity extends AppCompatActivity {
         String sprinkler1stat = reader.optString("Solenoid1"); // using optString instead of getString saves the exception in case a key value is missing
         String sprinkler2stat = reader.optString("Solenoid2");
         String sprinkler3stat = reader.optString("Solenoid3");
-          mqttmsgirrigationstat = reader.optString("Irrigation");
+        mqttmsgirrigationstat = reader.optString("Irrigation");
+
+
+          if (settingform!=null) // check if MainActivityMqttSetting was created
+          {
+           settingform.getInstance().setManualIrriToggSwitchState(sprinkler1stat,sprinkler2stat,sprinkler3stat); // update manual irrigation toggle switches
+          }
+
         devicedata += "\nIrrigation is: "+mqttmsgirrigationstat+"\nSprinklers current status:\nSprinkler 1 is: " + sprinkler1stat + ", Sprinkler 2 is: " + sprinkler2stat + ", Sprinkler 3 is: " + sprinkler3stat;
+
+        if (!mqttmsgirrigationstat.isEmpty())
+          {
+           boolean deviceirrigationstatus= true;
+           if (mqttmsgirrigationstat.equalsIgnoreCase("Enabled")) deviceirrigationstatus = true;
+           else deviceirrigationstatus = false;
+
+            if (settingform!=null) // check if MainActivityMqttSetting was created
+              {
+               settingform.getInstance().setDisablechkbox(deviceirrigationstatus);
+              }
+          }
       }
 
-     if (!mqttmsgirrigationstat.isEmpty())
-     {
-      if (mqttmsgirrigationstat.equalsIgnoreCase("Enabled")) DeviceIrrigationStatus = true;
-      else DeviceIrrigationStatus = false;
-      MainActivityMqttSetting aa=MainActivityMqttSetting.getInstance();
-      if (aa!=null)
-      {
-          MainActivityMqttSetting.getInstance().setDisablechkbox(DeviceIrrigationStatus);
-      }
-     }
      if (topic.contains("reportsolenoidssettings"))
        {
         try
@@ -273,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
     {
         devicedata="";
         try {
-            if (link_status == true)
+            if (mqttAndroidClient.isConnected())
             {
                 Log.w("Mqtt", "Publishing message..");
                 Log.w("jsonarray Sprink header tx", msg_header);
@@ -283,6 +245,119 @@ public class MainActivity extends AppCompatActivity {
         } catch (MqttException e) {
             e.printStackTrace();
         }
+    }
+
+   public void ConnectToMQTTServer(View view)
+   {
+       final int CONNECTION_TIMEOUT = 600;
+       final int KEEP_ALIVE_INTERVAL = 300;
+       devicedata="";
+
+       stopService(new Intent(this, MqttService.class));
+       startService(new Intent(this, MqttService.class));
+
+       if (mqttAndroidClient!=null)
+       {
+         String a= mqttAndroidClient.getClientId(); // avi
+         Log.w("Mqtt", a);
+         //onlyonce=0;
+         //mqttAndroidClient.registerResources(this);
+         // mqttAndroidClient.close();
+           /*
+           try {
+               IMqttToken disconToken = mqttAndroidClient.disconnect();
+               disconToken.setActionCallback(new IMqttActionListener() {
+                   @Override
+                   public void onSuccess(IMqttToken asyncActionToken) {
+                       Log.w("Mqtt", "we are disconnected");
+                       // we are now successfully disconnected
+                   }
+
+                   @Override
+                   public void onFailure(IMqttToken asyncActionToken,
+                                         Throwable exception) {
+                       // something went wrong, but probably we are disconnected anyway
+                       Log.w("Mqtt", "something went wrong but we are disconnected");
+                   }
+               });
+           } catch (MqttException e) {
+               e.printStackTrace();
+           }
+
+            */
+       }
+
+       MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
+       mqttConnectOptions.setAutomaticReconnect(true);
+       //mqttConnectOptions.setAutomaticReconnect(false); // was true but automatic reconnect didn't work thus I've disabled it, only manual connection is working fine
+       mqttConnectOptions.setCleanSession(false);
+       mqttConnectOptions.setConnectionTimeout(CONNECTION_TIMEOUT);
+       mqttConnectOptions.setKeepAliveInterval(KEEP_ALIVE_INTERVAL);
+       mqttConnectOptions.setUserName(username);
+       mqttConnectOptions.setPassword(password.toCharArray());
+
+       mqttAndroidClient = new MqttAndroidClient(this.getApplicationContext(), url, clientId);
+       mqttAndroidClient.setCallback(new MqttCallback() {
+           @Override
+           public void connectionLost(Throwable cause) {
+               Log.w("Mqtt", "Connection was lost!");
+           }
+
+           @Override
+           public void messageArrived(String topic, MqttMessage message) throws Exception {
+               Log.w("Mqtt","Message Arrived!: " + topic + ": " + new String(message.getPayload()));
+               Log.w("Mqtt", message.toString());
+               SednDeviceDataToScreen(topic, message.toString());
+           }
+
+           @Override
+           public void deliveryComplete(IMqttDeliveryToken token) {
+               Log.w("Mqtt", "Delivery Complete");
+           }
+       });
+
+       try {
+            mqttAndroidClient.connect(mqttConnectOptions, null, new IMqttActionListener() {
+               @Override
+               public void onSuccess(IMqttToken asyncActionToken) {
+
+                   Log.w("Mqtt", "Connection Success!");
+                       try
+                       {
+                               Log.w("Mqtt", "Subscribing to");
+                               Log.w("Mqtt", subtopic);
+                               mqttAndroidClient.subscribe(subtopic, 0);
+                               Log.w("Mqtt", "Subscribed to topic"); // subscribe to all topics coming from device
+                       } catch (MqttException ex)
+                       {
+                           Log.w("Mqtt problem", ex.getMessage());
+                       }
+               }
+
+               @Override
+               public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                   Log.w("Mqtt", "Connection Failure!");
+
+               }
+           });
+       } catch (MqttException ex) {
+           Log.w("Mqtt problem", ex.getMessage());
+       }
+   }
+
+}
+
+class LinkStatus {
+    private boolean status=false; // private = restricted access
+
+    // Getter
+    public boolean getStatus() {
+        return status;
+    }
+
+    // Setter
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }
 /*
