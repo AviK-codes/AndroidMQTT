@@ -2,6 +2,9 @@ package com.example.IrrigationAppMQTT;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
 import android.text.InputType;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -26,6 +29,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static android.os.SystemClock.sleep;
 
@@ -54,12 +59,32 @@ public class MainActivity extends AppCompatActivity {
     String devicedata="";
     private static MainActivity instance;
     String mqttmsgirrigationstat="";
-    boolean linkerrstate=true;
+
+    Thread checklinkstatus=null; // thread to check the link status every 5 seconds
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        checklinkstatus = new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(5000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                updatelinkstatus();
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
 
         instance = this;
 
@@ -67,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         dataReceived.setMovementMethod(new ScrollingMovementMethod());
 
         ConnectToMQTTServer(null);
+        checklinkstatus.start(); // run the thread to check the link status every 5 seconds
     }
 
     public void getDeviceSettings(View view)
@@ -238,12 +264,6 @@ public class MainActivity extends AppCompatActivity {
            @Override
            public void connectionLost(Throwable cause) {
                Log.w("Mqtt", "Connection was lost!");
-
-               if (linkerrstate)
-               {
-                SetButtonsText(false);
-               }
-               linkerrstate=true;
            }
 
            @Override
@@ -284,18 +304,6 @@ public class MainActivity extends AppCompatActivity {
                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
                    Log.w("Mqtt", "Connection Failure!");
                    String msg="not connected due to failure";
-                   if (mqttAndroidClient.isConnected())
-                   {
-                    SetButtonsText(true);
-                    linkerrstate=false;
-                    msg = "connection resumed!";
-                   }
-                   else
-                   {
-                    SetButtonsText(false);
-                    linkerrstate=true;
-                   }
-
                    Log.w("Mqtt",msg);
                }
            });
@@ -321,5 +329,25 @@ public class MainActivity extends AppCompatActivity {
          button2.setText("אין שרת...");
      }
    }
+   void updatelinkstatus()
+   {
+       if (mqttAndroidClient.isConnected())
+       {
+        SetButtonsText(true);
+        Log.w("checklinkstatus", "connected");
+       }
+       else
+       {
+        SetButtonsText(false);
+        Log.w("checklinkstatus", "disconnected");
+       }
+
+   }
+    @Override
+    protected void onPause()
+    {
+     super.onPause();
+     checklinkstatus.interrupted();
+    }
 }
 
