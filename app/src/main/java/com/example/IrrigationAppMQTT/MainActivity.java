@@ -39,21 +39,18 @@ public class MainActivity extends AppCompatActivity {
     MqttAndroidClient client;
     TextView dataReceived;
 
-    final String org_id="u1gsdw";
-    final String device_type="IrriCntrl";
-    final String device_id="irri546";
-    final String password = "m7OP37gK8tOi6ETPW&";
+    final String url = "tcp://152.67.67.153:1883"; // RabbitMQ mqtt broker installed on Oracle free cloud
+    final String username = "avik";
+    final String password = "Fg532ccv&*a1!a0";
 
-    final String url = "ssl://"+org_id+".messaging.internetofthings.ibmcloud.com:8883";
-    final String username = "a-"+org_id+"-aljwpdhub2";
-    final String clientId = "a:"+org_id+":APP1";
+    final String clientId = "AndroidApplication";
 
-    String subtopic = "iot-2/type/"+device_type+"/id/"+device_id+"/evt/+/fmt/json";
-    String topic_solenoid1daytimeduration="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/solenoid1daytimeduration/fmt/json";
-    String topic_solenoid2daytimeduration="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/solenoid2daytimeduration/fmt/json";
-    String topic_solenoid3daytimeduration="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/solenoid3daytimeduration/fmt/json";
-    String topic_setsolenoidsstatus = "iot-2/type/"+device_type+"/id/"+device_id+"/cmd/setsolenoidsstatus/fmt/json";
-    String topic_setirrigationstate= "iot-2/type/"+device_type+"/id/"+device_id+"/cmd/setirrigationstate/fmt/json";
+    String subtopic = "iot-2/evt/+/fmt/json"; // subscribing for messages sent by the irrigation system
+    String topic_solenoid1daytimeduration="iot-2/cmd/solenoid1daytimeduration/fmt/json";
+    String topic_solenoid2daytimeduration="iot-2/cmd/solenoid2daytimeduration/fmt/json";
+    String topic_solenoid3daytimeduration="iot-2/cmd/solenoid3daytimeduration/fmt/json";
+    String topic_setsolenoidsstatus = "iot-2/cmd/setsolenoidsstatus/fmt/json";
+    String topic_setirrigationstate= "iot-2/cmd/setirrigationstate/fmt/json";
 
     public MqttAndroidClient mqttAndroidClient;
     String devicedata="";
@@ -104,9 +101,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void pollDeviceForItsSettings()
     {
-        String topic_getsolenoidsstatus="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/getsolenoidsstatus/fmt/json";
-        String topic_getsolenoidssettings="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/getsolenoidssettings/fmt/json";
-        String topic_getdevicetime="iot-2/type/"+device_type+"/id/"+device_id+"/cmd/getdevicetime/fmt/json";
+        String topic_getsolenoidsstatus="iot-2/cmd/getsolenoidsstatus/fmt/json";
+        String topic_getsolenoidssettings="iot-2/cmd/getsolenoidssettings/fmt/json";
+        String topic_getdevicetime="iot-2/cmd/getdevicetime/fmt/json";
 
         try {
             if ((mqttAndroidClient!=null)&&mqttAndroidClient.isConnected())
